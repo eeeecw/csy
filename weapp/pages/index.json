@@ -1,0 +1,8 @@
+{
+    "navigationBarTitleText": "选哪个 吃点啥",
+    "component": true,
+    "usingComponents": {
+        "i-tab-bar": "../iview/tab-bar/index",
+        "i-tab-bar-item": "../iview/tab-bar-item/index"
+    }
+}

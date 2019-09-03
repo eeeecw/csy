@@ -1,0 +1,24 @@
+<!----------   wxs start ----------->
+<wxs module="m1">
+"use strict";
+
+var getTime = function getTime(time) {
+  var date = getDate(time);
+  var hour = date.getHours();
+  var mins = date.getMinutes();
+  var sec = date.getSeconds();
+  var milli = date.getMilliseconds();
+  return "".concat(hour, ":").concat(mins, ":").concat(sec, ".").concat(milli);
+};
+
+module.exports.getTime = getTime;
+</wxs>
+<!----------   wxs end   ----------->
+
+<view class="container">
+  <view>asd</view>
+  <i-tab-bar bind_init="_initComponent" current="{{ current }}" data-wpy-evt="7-6" bindchange="_proxy" class="tab-bar">
+    <i-tab-bar-item bind_init="_initComponent" key="homepage" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+    <i-tab-bar-item bind_init="_initComponent" key="group" icon="group" current-icon="group_fill" title="我"></i-tab-bar-item>
+  </i-tab-bar>
+</view>

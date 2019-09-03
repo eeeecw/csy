@@ -1,0 +1,70 @@
+<style lang="less">
+.tab-bar {
+  width: 100%;
+}
+</style>
+<wxs module="m1" lang="babel">
+const getTime = (time) => {
+  let date = getDate(time);
+  let hour = date.getHours();
+  let mins = date.getMinutes();
+  let sec = date.getSeconds();
+  let milli = date.getMilliseconds();
+  return `${hour}:${mins}:${sec}.${milli}`;
+}
+module.exports.getTime = getTime;
+</wxs>
+<template>
+  <div class="container">
+    <view>asd</view>
+    <i-tab-bar class="tab-bar" current="{{ current }}" bindchange="handleChangeTab">
+      <i-tab-bar-item key="homepage" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+      <i-tab-bar-item key="group" icon="group" current-icon="group_fill" title="我"></i-tab-bar-item>
+    </i-tab-bar>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import store from '../store'
+
+  wepy.page({
+    store,
+    config: {
+      navigationBarTitleText: 'tsest'
+    },
+
+    hooks: {
+
+    },
+
+    mixins: [],
+
+    data: {
+      current: 'homepage'
+    },
+
+    computed: {
+
+    },
+
+    methods: {
+      handleChangeTab () {
+
+      }
+    },
+
+    created () {
+
+    }
+  })
+</script>
+<config>
+{
+  navigationBarTitleText: '选哪个 吃点啥',
+  usingComponents: {
+    'i-tab-bar': '~@/iview/tab-bar/index',
+    'i-tab-bar-item': '~@/iview/tab-bar-item/index'
+  }
+}
+</config>
