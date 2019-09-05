@@ -11,6 +11,35 @@
 	"projectname": "csy",
 	"miniprogramRoot": "weapp/",
 	"simulatorType": "wechat",
+	"cloudfunctionRoot": "functions/",
 	"simulatorPluginLibVersion": {},
-	"condition": {}
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/me",
+					"scene": null
+				}
+			]
+		}
+	}
 }

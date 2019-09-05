@@ -1,0 +1,58 @@
+<style lang="less">
+  .modal-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(109, 109, 109, 0.329);
+  }
+  .list {
+    position: absolute;
+    bottom: 0;
+    height: 200px;
+    width: 100%;
+    background-color: #fff;
+    padding: 5px 0;
+    box-sizing: border-box;
+    &-item{
+      padding: 8px 13px;
+    }
+  }
+  .item-active {
+    color: #2d8cf0;
+  }
+</style>
+
+<template>
+  <div class="modal-list" @tap="handleClose">
+    <scroll-view @tap.stop :scroll-y="true" class="list">
+      <div
+        v-for="(item, index) of list"
+        :key="index"
+        :class="{'item-active': defaultMenu == index}"
+        class="list-item"
+        @tap="handleChangeMenu(index)">
+          {{ item.name }}
+      </div>
+    </scroll-view>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  wepy.component({
+    props: ['list', 'defaultMenu'],
+    methods: {
+      //  关闭事件
+      handleClose () {
+        this.$emit('close')
+      },
+
+      // 切换菜单
+      handleChangeMenu (index) {
+        this.$emit('changeMenu', index)
+      }
+    }
+  })
+</script>

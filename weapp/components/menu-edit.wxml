@@ -1,0 +1,23 @@
+
+<view class="container">
+  <view class="edit">
+    <view class="edit-title">
+      <label>菜单名称:</label>
+      <input value="{{ name }}" placeholder="输入菜单名称" data-wpy-evt="15-0" bindblur="_proxy"></input>
+    </view>
+    <scroll-view scroll-y="{{ true }}" class="edit-body">
+      <view wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" class="edit-body-item">
+        <input value="{{item}}" placeholder="点击输入选项名称" data-wpy-evt="15-1" bindblur="_proxy" data-wpyblur-a="{{ index }}" class="edit-body-input"></input>
+        <i-icon bind_init="_initComponent" type="close" data-wpy-evt="15-2" bindtap="_proxy" data-wpytap-a="{{ index }}" class="edit-body-item-close"></i-icon>
+      </view>
+      <view data-wpy-evt="15-3" bindtap="_proxy" class="edit-body-add">增加一项</view>
+    </scroll-view>
+    <view key="{{ i }}" class="edit-footer">
+      <label data-wpy-evt="15-4" bindtap="_proxy" class="edit-footer-save">保存</label>
+      <label data-wpy-evt="15-5" bindtap="_proxy" class="edit-footer-cancel">取消</label>
+    </view>
+  </view>
+  <view class="toast {{ [ toastShow ? 'toast-show' : '' ] }}">
+    <view class="toast-body">{{ toastText }}</view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+
+<view data-wpy-evt="14-0" bindtap="_proxy" class="modal-list">
+  <scroll-view scroll-y="{{ true }}" data-wpy-evt="14-1" catchtap="_proxy" class="list">
+    <view wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" data-wpy-evt="14-2" bindtap="_proxy" data-wpytap-a="{{ index }}" class="list-item {{ [ defaultMenu == index ? 'item-active' : '' ] }}">
+        {{ item.name }}
+    </view>
+  </scroll-view>
+</view>

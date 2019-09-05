@@ -1,11 +1,12 @@
 {
-    "navigationBarTitleText": "选哪个 吃点啥",
+    "navigationBarTitleText": "个人中心",
     "component": true,
     "usingComponents": {
         "i-tab-bar": "../iview/tab-bar/index",
         "i-tab-bar-item": "../iview/tab-bar-item/index",
         "i-modal": "../iview/modal/index",
         "i-toast": "../iview/toast/index",
-        "modal-list": "../components/modal-list"
+        "i-icon": "../iview/icon/index",
+        "menu-edit": "../components/menu-edit"
     }
 }

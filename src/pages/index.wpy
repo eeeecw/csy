@@ -1,35 +1,107 @@
 <style lang="less">
 .tab-bar {
   width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+.body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  background-image: url('https://6373-csy-1300171683.tcb.qcloud.la/assets/img/bg.jpg');
+  background-repeat: repeat-x repeat-y;
+}
+.random-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.btn-box {
+  position: absolute;
+  width: 100%;
+}
+.btn {
+  margin: 70% auto 0 auto;
+  width: 180rpx;
+  text-align: center;
+  padding: 20rpx 0 20rpx 10px;
+  background: -webkit-linear-gradient(top, #f7bb57, #f3913d);
+  border-radius: 30px;
+  z-index: 9
+}
+.login-btn {
+  display:initial;
+  background-color: transparent;
+  font-size: 12px;
+  color: #2d8cf0;
+  padding: 0;
+  &::after {
+    border: none;
+  }
+}
+.info {
+  text-align: center;
+  font-size: 12px;
 }
 </style>
 <wxs module="m1" lang="babel">
-const getTime = (time) => {
-  let date = getDate(time);
-  let hour = date.getHours();
-  let mins = date.getMinutes();
-  let sec = date.getSeconds();
-  let milli = date.getMilliseconds();
-  return `${hour}:${mins}:${sec}.${milli}`;
-}
-module.exports.getTime = getTime;
+  const getTime = (time) => {
+    let date = getDate(time);
+    let hour = date.getHours();
+    let mins = date.getMinutes();
+    let sec = date.getSeconds();
+    let milli = date.getMilliseconds();
+    return `${hour}:${mins}:${sec}.${milli}`;
+  }
+  module.exports.getTime = getTime;
 </wxs>
 <template>
   <div class="container">
-    <view>asd</view>
-    <i-tab-bar class="tab-bar" current="{{ current }}" bindchange="handleChangeTab">
-      <i-tab-bar-item key="homepage" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
-      <i-tab-bar-item key="group" icon="group" current-icon="group_fill" title="我"></i-tab-bar-item>
+    <view class="body">
+      <view v-if="interval" class="random-box">
+        <view
+          v-for="(item, index) in drawList"
+          :key="index"
+          style="position: absolute;"
+          :style="{top: item.top + 'px', left: item.left + 'px', fontSize: item.font + 'px', opacity: item.opacity}"
+          :index="item.name">{{ item.name }}</view>
+      </view>
+      <view class="btn-box">
+        <view class="btn" @tap="handleStart">{{ interval && btnName ? btnName : '开始！' }}</view>
+        <view v-if="!interval" class="info">
+          <button @tap="handleChangeList" class="login-btn">切换菜单</button>
+        </view>
+      </view>
+    </view>
+    <i-modal visible="{{ modalAble }}" bind:ok="handleModalOk" :show-cancel="false">
+      <view>选择结果为：</view>
+      <view>{{ btnName }}</view>
+    </i-modal>
+    <i-tab-bar class="tab-bar" current="{{ currentTab }}" bindchange="handleChangeTab">
+      <i-tab-bar-item key="home" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+      <i-tab-bar-item key="me" icon="group" current-icon="group_fill" title="我"></i-tab-bar-item>
     </i-tab-bar>
+    <modal-list
+      v-if="modalListAble"
+      :list="menuList"
+      :defaultMenu="defaultMenu"
+      @close="modalListAble = false"
+      @changeMenu="handleChangeMenu"
+      ></modal-list>
+    <i-toast id="toast" />
   </div>
 </template>
 
 <script>
   import wepy from '@wepy/core'
   import store from '../store'
-
+  import mixin from './mixin.js'
+  const { $Toast } = require('../iview/base/index')
   wepy.page({
     store,
+    mixins: [ mixin ],
     config: {
       navigationBarTitleText: 'tsest'
     },
@@ -38,10 +110,20 @@ module.exports.getTime = getTime;
 
     },
 
-    mixins: [],
-
     data: {
-      current: 'homepage'
+      currentTab: 'home',
+      chooseList: [], // 等待选择列表
+      drawList: [], // 循环显示背景列表
+      drawIng: false, // 抽奖状态
+      screen: {
+        height: wx.getSystemInfoSync().windowHeight,
+        width: wx.getSystemInfoSync().windowWidth
+      },
+      btnName: '',
+      interval: null,
+      modalAble: false, // 显示弹出区域
+      userInfo: null, // 用户信息
+      modalListAble: false // 展示切换菜单列表
     },
 
     computed: {
@@ -49,13 +131,121 @@ module.exports.getTime = getTime;
     },
 
     methods: {
-      handleChangeTab () {
+      handleChangeTab (data) {
+        let key = data.$wx.detail.key
+        if (key === 'me') {
+          wx.redirectTo({
+            url: 'me'
+          })
+        }
+      },
 
+      // 切换菜单
+      handleChangeList () {
+        if (!this.checkoutMenuList()) { return false }
+        this.modalListAble = true
+      },
+
+      handleModalOk () {
+        this.modalAble = false
+      },
+
+      // 初始化背景显示列表
+      initDrawList () {
+        this.chooseList = this.menuList[this.defaultMenu].list
+        let len = this.chooseList.length - 1
+        let drawList = []
+        let i = 0
+        for (let n = 0; n < 20; n++) {
+          let font = 14 + Math.random() * 4
+          let width = this.chooseList[i].length * font
+          drawList.push({
+            name: this.chooseList[i],
+            // opacity: Math.random().toFixed(2) * 2 - 1,
+            font: font,
+            left: Math.random() * (this.screen.width - width),
+            top: Math.random() * (this.screen.height - font),
+            direction: true // 加
+          })
+          if (i === len) {
+            i = 0
+          } else {
+            i++
+          }
+        }
+        let opacity = -1.11
+        let direction = false
+        drawList.forEach(item => {
+          item.opacity = opacity += 0.11
+          item.direction = (direction = !direction)
+        })
+        this.drawList = drawList
+      },
+  
+      checkoutMenuList () {
+        if (!this.menuList || this.menuList.length === 0) {
+          $Toast({
+            content: '请先创建一个菜单'
+          })
+          wx.redirectTo({
+            url: 'me'
+          })
+          return false
+        } else {
+          return true
+        }
+      },
+      // 开始抽奖
+      handleStart () {
+        if (!this.checkoutMenuList()) { return false }
+        if (this.interval) {
+          clearInterval(this.interval)
+          this.interval = null
+          this.modalAble = true
+        } else {
+          this.initDrawList()
+          let time = 0
+          this.interval = setInterval(() => {
+            this.drawList.forEach(item => {
+              if (item.opacity > 1 || item.opacity < -1) {
+                item.direction = false
+                if (item.opacity < -1) {
+                  item.direction = true
+                  let font = 14 + Math.random() * 4
+                  let width = item.name.length * font
+                  item.left = Math.random() * (this.screen.width - width)
+                  item.top = Math.random() * (this.screen.height - font)
+                }
+              }
+              item.opacity += item.direction ? 0.03 : -0.03
+            })
+            time++
+            if (time % 5 === 0) {
+              time = 0
+              let index = Math.floor(Math.random() * 20)
+              this.btnName = this.drawList[index].name.slice(0, 6)
+            }
+          }, 15)
+        }
+      },
+
+      getUserInfo () {
+        wx.getUserInfo({
+          success: res => {
+            this.userInfo = res.userInfo
+          }
+        })
+      },
+
+      // 切换菜单
+      handleChangeMenu (index) {
+        this.modalListAble = false
+        this.defaultMenu = index
+        $Toast({
+          content: this.menuList[index].name,
+          type: 'success'
+        })
       }
-    },
-
-    created () {
-
     }
   })
 </script>
@@ -64,7 +254,10 @@ module.exports.getTime = getTime;
   navigationBarTitleText: '选哪个 吃点啥',
   usingComponents: {
     'i-tab-bar': '~@/iview/tab-bar/index',
-    'i-tab-bar-item': '~@/iview/tab-bar-item/index'
+    'i-tab-bar-item': '~@/iview/tab-bar-item/index',
+    'i-modal': '~@/iview/modal/index',
+    'i-toast': '~@/iview/toast/index',
+    'modal-list': '~@/components/modal-list'
   }
 }
 </config>

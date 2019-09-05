@@ -1,0 +1,187 @@
+<style lang="less">
+  .container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(109, 109, 109, 0.329);
+  }
+  .edit {
+    position: absolute;
+    top: 85px;
+    left: 25rpx;
+    width: 700rpx;
+    background-color: #fff;
+    &-title {
+      display: flex;
+      padding: 8px;
+      label {
+        margin-right: 8px;
+      }
+    }
+    &-body {
+      height: 333px;
+      &-add {
+        margin-left: 20px;
+        color: #2d8cf0;
+      }
+      &-input {
+        padding: 2px 10px;
+        flex: 1;
+      }
+      &-item {
+        display: flex;
+        &-close {
+          width: 14px;
+          margin-right: 12px;
+        }
+      }
+    }
+      &-footer {
+      display: flex;
+      line-height: 22px;
+      text-align: center;
+      padding-bottom: 6px;
+      &-save {
+        color: #2d8cf0;
+        flex: 1;
+      }
+      &-cancel {
+        color: #ed4014;
+        flex: 1;
+      }
+    }
+  }
+  .toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+    &-body {
+      margin-left: -50%;
+      margin-right: 50%;
+      margin-top: -50%;
+      padding: 3px 9px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 5px;
+      color: #fff;
+    }
+    &-show {
+      display: inline;
+    }
+  }
+</style>
+<template>
+  <div class="container">
+    <div class="edit">
+      <div class="edit-title">
+        <label>菜单名称:</label>
+        <input value="{{ name }}" @blur="handleChangeName" placeholder="输入菜单名称"/>
+      </div>
+      <scroll-view :scroll-y="true" class="edit-body">
+        <div v-for="(item, index) in list" :key="index" class="edit-body-item">
+          <input value="{{item}}" @blur="handleInputItem($event, index)" class="edit-body-input" placeholder="点击输入选项名称"/>
+          <i-icon @tap="handleDelete(index)" class="edit-body-item-close" type="close" />
+        </div>
+        <div @tap="handleAdd" class="edit-body-add">增加一项</div>
+      </scroll-view>
+      <div :key="i" class="edit-footer">
+        <span @tap="handleSave" class="edit-footer-save">保存</span>
+        <span @tap="handleCancel" class="edit-footer-cancel">取消</span>
+      </div>
+    </div>
+    <div
+      class="toast"
+      :class="{'toast-show': toastShow}">
+      <div class="toast-body">{{ toastText }}</div>
+    </div>
+  </div>
+</template>
+<script>
+  import wepy from '@wepy/core'
+  wepy.component({
+    props: ['detail'],
+    data: {
+      list: [''],
+      name: '',
+      toastShow: false,
+      toastText: '显示文字'
+    },
+
+    methods: {
+      init () {
+        this.list = this.detail.list
+        this.name = this.detail.name
+      },
+      handleAdd () {
+        // let len = this.list.length
+        // this.list.push({id: len + 1, title: 'title_' + len})
+        let list = [...this.list]
+        this.list = list.concat('')
+      },
+      // 输入了名称
+      handleChangeName (e) {
+        this.name = e.$wx.detail.value
+      },
+      // 输入了选项名称
+      handleInputItem (e, index) {
+        this.list[index] = e.$wx.detail.value.trim()
+      },
+      // 弹出错误信息
+      showToast (text) {
+        this.toastText = text
+        this.toastShow = true
+        setTimeout(() => {
+          this.toastShow = false
+        }, 1000)
+      },
+      // 保存
+      handleSave () {
+        this.checkoutInput()
+        if (!this.name) {
+          this.showToast('请输入菜单名称')
+          return false
+        }
+        if (this.list.length === 0) {
+          this.showToast('至少拥有一个选项')
+          return false
+        }
+        this.$emit('save', {
+          name: this.name,
+          list: this.list
+        })
+      },
+      // 检验输入，过滤空项目
+      checkoutInput () {
+        let list = new Set(this.list)
+        list = Array.from(list).filter(item => item !== '')
+        this.list = list
+      },
+      // 删除一项
+      handleDelete (index) {
+        let list = JSON.parse(JSON.stringify(this.list))
+        list.splice(index, 1)
+        this.list = list
+      },
+      // 取消
+      handleCancel () {
+        this.$emit('cancel')
+      }
+    },
+
+    watch: {
+      detail (curVal, oldVal) {
+        this.init()
+      }
+    }
+  })
+</script>
+
+<config>
+{
+  usingComponents: {
+    'i-icon': '../iview/icon/index'
+  }
+}
+</config>

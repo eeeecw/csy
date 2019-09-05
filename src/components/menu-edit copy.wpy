@@ -1,0 +1,149 @@
+<style lang="less" scoped>
+  // .modal-edit {
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   bottom: 0;
+  //   right: 0;
+  //   background-color: rgba(109, 109, 109, 0.329);
+  // }
+  // .edit {
+  //   position: absolute;
+  //   top: 85px;
+  //   left: 25rpx;
+  //   width: 700rpx;
+  //   background-color: #fff;
+  //   &-item{
+  //     padding: 8px 13px;
+  //   }
+  //   &-title {
+  //     display: flex;
+  //     padding: 8px;
+  //     label {
+  //       margin-right: 8px;
+  //     }
+  //   }
+  //   &-body {
+  //     height: 333px;
+  //     &-add {
+  //       margin-left: 20px;
+  //       color: #2d8cf0;
+  //     }
+  //   }
+  //   &-footer {
+  //     display: flex;
+  //     line-height: 22px;
+  //     text-align: center;
+  //     &-save {
+  //       color: #2d8cf0;
+  //       flex: 1;
+  //     }
+  //     &-cancel {
+  //       color: #ed4014;
+  //       flex: 1;
+  //     }
+  //   }
+  // }
+  // .item-active {
+  //   color: #2d8cf0;
+  // }
+</style>
+
+<template>
+  <!-- <div class="modal-edit">
+    <div class="edit">
+      <div class="edit-title">
+        <label>菜单名称:</label>
+        <input value="{{ name }}" @blur="handleChangeName" placeholder="输入菜单名称"/>
+      </div>
+      <scroll-view :scroll-y="true" class="edit-body">
+        <input
+          v-for="(item, index) of list"
+          :key="index"
+          value="{{ item }}"
+          @blue="handleChangeList($event, index)"
+          placeholder="输入内容"/>
+        <div @tap="handleAdd" class="edit-body-add">增加一项</div>
+      </scroll-view>
+      <div :key="i" class="edit-footer">
+        <span class="edit-footer-save">保存</span>
+        <span class="edit-footer-cancel">取消</span>
+      </div>
+    </div>
+  </div> -->
+  <div>
+    <div>
+      <button @tap="add" size="mini">添加列表another</button>
+    </div>
+    aaa
+    <div v-for="(item, index) in list" :key="index">{{item.title}}</div>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  wepy.component({
+    // props: ['item'],
+    data () {
+      return {
+        name: '',
+        list: [
+          {
+            id: '0',
+            title: 'loading'
+          },
+          {
+            id: '1',
+            title: 'asd'
+          }
+        ]
+      }
+    },
+    // created () {
+    //   if (this.item === null) {
+    //     this.name = ''
+    //     // this.list = []
+    //   } else {
+    //     this.name = this.item.name
+    //     this.list = this.item.list.join(',')
+    //   }
+    // },
+    methods: {
+      //  关闭事件
+      handleClose () {
+        this.$emit('close')
+      },
+
+      // 保存输入
+      handleSave (index) {
+        this.$emit('save', {
+          name: this.name,
+          list: this.list
+        })
+      },
+
+      // 输入了名称
+      handleChangeName (e) {
+        console.log(this.name)
+        this.name = e.$wx.detail.value
+      },
+
+      handleChangeList (e, index) {
+        console.log(e)
+      },
+
+      // 增加一项内容
+      handleAdd () {
+        let len = this.list.length
+        this.list.push({id: len + 1, title: 'title_' + len})
+        console.log(this.list)
+      },
+
+      add () {
+        let len = this.list.length
+        this.list.push({id: len + 1, title: 'title_' + len})
+        console.log(this.list)
+      }
+    }
+  })
+</script>

@@ -1,0 +1,273 @@
+<style lang="less">
+.tab-bar {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+.login-btn {
+  display: initial;
+  background-color: transparent;
+  font-size: 16px;
+  color: #2d8cf0;
+  padding: 0;
+  &::after {
+    border: none;
+  }
+}
+.me-box {
+  width: 100%;
+  height: 100%;
+  background-color: #f3f3f3;
+}
+.user-info {
+  .head {
+    background-color: #fff000;
+    padding: 14px 18px 14px 18px;
+    border-radius: 0 0 10% 10%;
+    vertical-align: top;
+    &-img {
+      width: 100rpx;
+      height: 100rpx;
+      vertical-align: top;
+      border-radius: 5px;
+    }
+    &-name {
+      margin-left: 10px;
+    }
+  }
+}
+.my-list {
+  margin: 20rpx;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 5px;
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 18rpx;
+    &-title {
+      font-weight: 500;
+    }
+    &-btn {
+      font-size: 14px;
+      color: #2d8cf0;
+    }
+  }
+  &-body {
+    font-size: 14px;
+    &-item {
+      line-height: 22px;
+      display: flex;
+      &-name{
+        flex: 1;
+      }
+      &-edit {
+        color: #2d8cf0;
+        margin-right: 5px;
+      }
+      &-delete {
+        color: #ed4014;
+      }
+      &-default {
+        color: rgb(0, 153, 102);
+        margin-right: 5px;
+      }
+    }
+  }
+}
+</style>
+
+<template>
+  <div class="me-box">
+    <div class="body">
+      <div class="user-info">
+        <div class="head" v-if="userInfo">
+          <img class="head-img" :src="userInfo.avatarUrl" alt=""/>
+          <span class="head-name">{{ userInfo.nickName }}</span>
+        </div>
+        <div class="head" v-else>
+          <button
+            class="login-btn"
+            open-type="getUserInfo"
+            lang="zh_CN"
+            bindgetuserinfo="onGotUserInfo"
+          >登陆</button>
+          <span>后显示头像和昵称</span>
+        </div>
+      </div>
+    </div>
+    <div class="my-list">
+      <div class="my-list-head">
+        <span class="my-list-head-title">我的菜单</span>
+        <span class="my-list-head-btn" @tap="handleAdd">
+          <i-icon type="add" />新增
+        </span>
+      </div>
+      <div class="my-list-body">
+        <div
+          class="my-list-body-item"
+          v-for="(item, index) of menuList"
+          :key="index">
+          <span class="my-list-body-item-name">
+            <span v-if="index === defaultMenu" class="my-list-body-item-default">[默认]</span>
+            <span>{{ item.name }}</span>
+          </span>
+          <span @tap="handleSetDefault(index)" v-if="index !== defaultMenu" class="my-list-body-item-edit">设为默认</span>
+          <span @tap="handleEdit(index)" class="my-list-body-item-edit">编辑</span>
+          <span @tap="handleDelete(index)" class="my-list-body-item-delete">删除</span>
+        </div>
+      </div>
+      
+    </div>
+    <menu-edit
+      v-if="editAble"
+      :detail="detail"
+      @save="handleSave"
+      @cancel="editAble = false"></menu-edit>
+    <i-tab-bar class="tab-bar" current="{{ currentTab }}" bindchange="handleChangeTab">
+      <i-tab-bar-item key="home" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+      <i-tab-bar-item key="me" icon="group" current-icon="group_fill" title="我"></i-tab-bar-item>
+    </i-tab-bar>
+    <i-modal title="确认删除？" visible="{{ deleteModal }}" @ok="handleSureDelete" @cancel="handleCancelDelete = false">
+    </i-modal>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core'
+import { mapActions } from '@wepy/x'
+import store from '../store'
+import mixin from './mixin.js'
+// const { $Toast } = require('@/iview/base/index')
+wepy.page({
+  store,
+  mixins: [ mixin ],
+  data: {
+    currentTab: 'me', // 当前选中底部菜单
+    userInfo: null, // 用户信息
+    editIndex: 0, // 被编辑项索引 -1 代表新建
+    editAble: false, // 打开编辑框
+    detail: {},
+    deleteModal: false // 删除的确认框
+  },
+
+  created () {
+    this.getUserInfo()
+  },
+
+  methods: {
+    ...mapActions(['upList']),
+    onGotUserInfo: function(e) {
+      if (e.$wx.detail.userInfo) {
+        this.userInfo = e.$wx.detail.userInfo
+      }
+    },
+
+    handleChangeTab(data) {
+      let key = data.$wx.detail.key
+      if (key === 'home') {
+        wx.redirectTo({
+          url: 'index'
+        })
+      }
+    },
+
+    // 新增一项
+    handleAdd () {
+      this.detail = {name: '', list: []}
+      this.editIndex = -1
+      this.editAble = true
+    },
+
+    handleEdit (index) {
+      this.editIndex = index
+      this.detail = JSON.parse(JSON.stringify(this.menuList[index]))
+      this.editAble = true
+    },
+
+    // 保存新项
+    handleSave (item) {
+      this.editAble = false
+      if (this.editIndex === -1) {
+        this.menuList.push(item)
+      } else {
+        this.menuList[this.editIndex] = item
+      }
+      this.menuList = JSON.parse(JSON.stringify(this.menuList))
+      console.log(this.menuList)
+      this.upDataMenu()
+    },
+
+    handleSetDefault (index) {
+      this.defaultMenu = index
+      this.upDataMenu()
+    },
+
+    // 更新菜单
+    upDataMenu () {
+      wx.cloud.callFunction({
+        // 调用的函数名字
+        name: 'upMenu',
+        data: {
+          menuList: this.menuList,
+          defaultMenu: this.defaultMenu
+        },
+        success: (res) => {
+          // if (res.result.menuList.length) {
+          //   this.menuList = res.result.menuList
+          //   this.defaultMenu = res.result.defaultMenu
+          // }
+        },
+        fail: () => {
+          // TODO 未验证
+        }
+      })
+    },
+
+    // 删除一个菜单
+    handleDelete (index) {
+      this.editIndex = index
+      this.deleteModal = true
+    },
+
+    // 确认删除
+    handleSureDelete () {
+      let menuList = JSON.parse(JSON.stringify(this.menuList))
+      // console.log(this.menuList, this.editIndex)
+      menuList.splice(this.editIndex, 1)
+      // console.log(menuList)
+      this.menuList = menuList
+      this.upDataMenu()
+      this.deleteModal = false
+    },
+
+    // 取消删除
+    handleCancelDelete () {
+      this.deleteModal = false
+    },
+    // 获取用户信息
+    getUserInfo() {
+      wx.getUserInfo({
+        withCredentials: true,
+        success: res => {
+          this.userInfo = res.userInfo
+        }
+      })
+    }
+  }
+})
+</script>
+
+<config>
+{
+  navigationBarTitleText: '个人中心',
+  usingComponents: {
+    'i-tab-bar': '~@/iview/tab-bar/index',
+    'i-tab-bar-item': '~@/iview/tab-bar-item/index',
+    'i-modal': '~@/iview/modal/index',
+    'i-toast': '~@/iview/toast/index',
+    'i-icon': '~@/iview/icon/index',
+    'menu-edit': '~@/components/menu-edit'
+  }
+}
+</config>

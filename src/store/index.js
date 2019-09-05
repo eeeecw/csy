@@ -1,28 +1,22 @@
-import Vuex from '@wepy/x';
+import vuex from '@wepy/x'
 
-export default new Vuex.Store({
+export default new vuex.Store({
   state: {
-    counter: 0
+    x_userInfo: [],
+    x_defaultMenu: 0,
+    x_openid: null,
+    x_menuList: []
   },
   mutations: {
-    increment (state) {
-      state.counter++;
-    },
-    decrement (state) {
-      state.counter--;
+    upList (state) {
+      // state.list = ['1', 2, 3]
+      // state.default = 2
+      // state.default = result.default
     }
   },
   actions: {
-    increment ({ commit }) {
-      commit('increment');
-    },
-    decrement ({ commit }) {
-      commit('decrement');
-    },
-    incrementAsync ({ commit }) {
-      setTimeout(() => {
-        commit('increment');
-      }, 1000);
+    upList ({ commit }) {
+      commit('upList')
     }
   }
-});
+})
