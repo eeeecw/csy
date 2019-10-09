@@ -7,7 +7,7 @@
         <label class="head-name">{{ userInfo.nickName }}</label>
       </view>
       <view wx:else class="head">
-        <button open-type="getUserInfo" lang="zh_CN" data-wpy-evt="5-30" bindgetuserinfo="_proxy" class="login-btn">登陆</button>
+        <button open-type="getUserInfo" lang="zh_CN" data-wpy-evt="5-0" bindgetuserinfo="_proxy" class="login-btn">登陆</button>
         <label>后显示头像和昵称</label>
       </view>
     </view>
@@ -15,7 +15,7 @@
   <view class="my-list">
     <view class="my-list-head">
       <label class="my-list-head-title">我的菜单</label>
-      <label data-wpy-evt="5-31" bindtap="_proxy" class="my-list-head-btn">
+      <label data-wpy-evt="5-1" bindtap="_proxy" class="my-list-head-btn">
         <i-icon bind_init="_initComponent" type="add"></i-icon>新增
       </label>
     </view>
@@ -25,18 +25,18 @@
           <label wx:if="{{ index === defaultMenu }}" class="my-list-body-item-default">[默认]</label>
           <label>{{ item.name }}</label>
         </label>
-        <label wx:if="{{ index !== defaultMenu }}" data-wpy-evt="5-32" bindtap="_proxy" data-wpytap-a="{{ index }}" class="my-list-body-item-edit">设为默认</label>
-        <label data-wpy-evt="5-33" bindtap="_proxy" data-wpytap-a="{{ index }}" class="my-list-body-item-edit">编辑</label>
-        <label data-wpy-evt="5-34" bindtap="_proxy" data-wpytap-a="{{ index }}" class="my-list-body-item-delete">删除</label>
+        <label wx:if="{{ index !== defaultMenu }}" data-wpy-evt="5-2" bindtap="_proxy" data-wpytap-a="{{ index }}" class="my-list-body-item-edit">设为默认</label>
+        <label data-wpy-evt="5-3" bindtap="_proxy" data-wpytap-a="{{ index }}" class="my-list-body-item-edit">编辑</label>
+        <label data-wpy-evt="5-4" bindtap="_proxy" data-wpytap-a="{{ index }}" class="my-list-body-item-delete">删除</label>
       </view>
     </view>
     
   </view>
-  <menu-edit bind_init="_initComponent" wx:if="{{ editAble }}" detail="{{ detail }}" data-wpy-evt="5-35" bindsave="_proxy" bindcancel="_proxy"></menu-edit>
-  <i-tab-bar bind_init="_initComponent" current="{{ currentTab }}" data-wpy-evt="5-37" bindchange="_proxy" class="tab-bar">
+  <menu-edit bind_init="_initComponent" wx:if="{{ editAble }}" detail="{{ detail }}" data-wpy-evt="5-5" bindsave="_proxy" bindcancel="_proxy"></menu-edit>
+  <i-tab-bar bind_init="_initComponent" current="{{ currentTab }}" data-wpy-evt="5-7" bindchange="_proxy" class="tab-bar">
     <i-tab-bar-item bind_init="_initComponent" key="home" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
     <i-tab-bar-item bind_init="_initComponent" key="me" icon="group" current-icon="group_fill" title="我"></i-tab-bar-item>
   </i-tab-bar>
-  <i-modal bind_init="_initComponent" title="确认删除？" visible="{{ deleteModal }}" data-wpy-evt="5-38" bindok="_proxy" bindcancel="_proxy">
+  <i-modal bind_init="_initComponent" title="确认删除？" visible="{{ deleteModal }}" data-wpy-evt="5-8" bindok="_proxy" bindcancel="_proxy">
   </i-modal>
 </view>

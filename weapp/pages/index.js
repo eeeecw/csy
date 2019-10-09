@@ -39,7 +39,17 @@ _core.default.page({
     modalListAble: false // 展示切换菜单列表
 
   },
+  created: function created() {
+    wx.showShareMenu({
+      withShareTicket: true
+    });
+  },
   computed: {},
+  onShareAppMessage: function onShareAppMessage(res) {
+    return {
+      imageUrl: 'https://6373-csy-1300171683.tcb.qcloud.la/assets/img/share.jpg'
+    };
+  },
   methods: {
     handleChangeTab: function handleChangeTab(data) {
       var key = data.$wx.detail.key;

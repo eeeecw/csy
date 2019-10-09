@@ -4,7 +4,7 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database().collection('list')
 let defaultList = [{
-  name: '默认菜单',
+  name: '午餐 or 晚餐',
   list: ['汉堡', '麻辣烫', '铁板烧', '石锅饭', '盖饭', '麻辣小龙虾', '寿司', '火锅', '烧烤']
 }]
 

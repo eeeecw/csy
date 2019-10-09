@@ -16,7 +16,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// const { $Toast } = require('@/iview/base/index')
 _core.default.page({
   store: _store.default,
   mixins: [_mixin.default],
@@ -35,6 +34,9 @@ _core.default.page({
   },
   created: function created() {
     this.getUserInfo();
+    wx.showShareMenu({
+      withShareTicket: true
+    });
   },
   methods: _objectSpread({}, (0, _x.mapActions)(['upList']), {
     onGotUserInfo: function onGotUserInfo(e) {
@@ -132,42 +134,42 @@ _core.default.page({
       });
     }
   })
-}, {info: {"components":{"i-tab-bar":{"path":"../iview/tab-bar/index"},"i-tab-bar-item":{"path":"../iview/tab-bar-item/index"},"i-modal":{"path":"../iview/modal/index"},"i-toast":{"path":"../iview/toast/index"},"i-icon":{"path":"../iview/icon/index"},"menu-edit":{"path":"../components/menu-edit"}},"on":{"5-35":["save","cancel"],"5-37":["change"],"5-38":["ok","cancel"]}}, handlers: {'5-30': {"getuserinfo": function proxy () {
+}, {info: {"components":{"i-tab-bar":{"path":"../iview/tab-bar/index"},"i-tab-bar-item":{"path":"../iview/tab-bar-item/index"},"i-modal":{"path":"../iview/modal/index"},"i-toast":{"path":"../iview/toast/index"},"i-icon":{"path":"../iview/icon/index"},"menu-edit":{"path":"../components/menu-edit"}},"on":{"5-5":["save","cancel"],"5-7":["change"],"5-8":["ok","cancel"]}}, handlers: {'5-0': {"getuserinfo": function proxy () {
     var $event = arguments[arguments.length - 1];
     var _vm=this;
       return (function () {
         _vm.onGotUserInfo($event)
       })();
     
-  }},'5-31': {"tap": function proxy () {
+  }},'5-1': {"tap": function proxy () {
     var $event = arguments[arguments.length - 1];
     var _vm=this;
       return (function () {
         _vm.handleAdd($event)
       })();
     
-  }},'5-32': {"tap": function proxy (index) {
+  }},'5-2': {"tap": function proxy (index) {
     
     var _vm=this;
       return (function () {
         _vm.handleSetDefault(index)
       })();
     
-  }},'5-33': {"tap": function proxy (index) {
+  }},'5-3': {"tap": function proxy (index) {
     
     var _vm=this;
       return (function () {
         _vm.handleEdit(index)
       })();
     
-  }},'5-34': {"tap": function proxy (index) {
+  }},'5-4': {"tap": function proxy (index) {
     
     var _vm=this;
       return (function () {
         _vm.handleDelete(index)
       })();
     
-  }},'5-35': {"save": function proxy () {
+  }},'5-5': {"save": function proxy () {
     var $event = arguments[arguments.length - 1];
     var _vm=this;
       return (function () {
@@ -181,14 +183,14 @@ _core.default.page({
         _vm.editAble = false
       })();
     
-  }},'5-37': {"change": function proxy () {
+  }},'5-7': {"change": function proxy () {
     var $event = arguments[arguments.length - 1];
     var _vm=this;
       return (function () {
         _vm.handleChangeTab($event)
       })();
     
-  }},'5-38': {"ok": function proxy () {
+  }},'5-8': {"ok": function proxy () {
     var $event = arguments[arguments.length - 1];
     var _vm=this;
       return (function () {

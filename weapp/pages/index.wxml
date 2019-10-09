@@ -21,10 +21,11 @@ module.exports.getTime = getTime;
       <view wx:for="{{ drawList }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" index="{{ item.name }}" style="position: absolute; {{ 'top:' + item.top + \'px\' + ';' + 'left:' + item.left + \'px\' + ';' + 'font-size:' + item.font + \'px\' + ';' + 'opacity:' + item.opacity + ';' }}">{{ item.name }}</view>
     </view>
     <view class="btn-box">
-      <view data-wpy-evt="4-0" bindtap="_proxy" class="btn">{{ interval && btnName ? btnName : '开始！' }}</view>
+      <view data-wpy-evt="4-0" bindtap="_proxy" class="btn">{{ interval && btnName ? '结束' : '开始！' }}</view>
       <view wx:if="{{ !interval }}" class="info">
         <button data-wpy-evt="4-1" bindtap="_proxy" class="login-btn">切换菜单</button>
       </view>
+      <view wx:else class="result">选择为: {{ btnName }}</view>
     </view>
   </view>
   <i-modal bind_init="_initComponent" visible="{{ modalAble }}" show-cancel="{{ false }}" data-wpy-evt="4-2" bindok="_proxy">

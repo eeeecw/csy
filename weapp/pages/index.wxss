@@ -44,4 +44,9 @@
   text-align: center;
   font-size: 12px;
 }
+.result {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 5px;
+}
 

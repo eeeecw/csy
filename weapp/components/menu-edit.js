@@ -26,8 +26,8 @@ _core.default.component({
       this.name = this.detail.name;
     },
     handleAdd: function handleAdd() {
-      // let len = this.list.length
-      // this.list.push({id: len + 1, title: 'title_' + len})
+      console.log('handleAdd');
+
       var list = _toConsumableArray(this.list);
 
       this.list = list.concat('');
@@ -38,6 +38,7 @@ _core.default.component({
     },
     // 输入了选项名称
     handleInputItem: function handleInputItem(e, index) {
+      console.log('handleInputItem');
       this.list[index] = e.$wx.detail.value.trim();
     },
     // 弹出错误信息
@@ -100,217 +101,7 @@ _core.default.component({
         _vm.handleChangeName($event)
       })();
     
-  }},'15-1': {"blur": function proxy (index) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleInputItem($event, index)
-      })();
-    
-  }},'15-2': {"tap": function proxy (index) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.handleDelete(index)
-      })();
-    
-  }},'15-3': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleAdd($event)
-      })();
-    
-  }},'15-4': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleSave($event)
-      })();
-    
-  }},'15-5': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleCancel($event)
-      })();
-    
-  }}}, models: {} }, {info: {"components":{"i-icon":{"path":"../iview/icon/index"}},"on":{"15-2":["tap"]}}, handlers: {'15-0': {"blur": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleChangeName($event)
-      })();
-    
-  }},'15-1': {"blur": function proxy (index) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleInputItem($event, index)
-      })();
-    
-  }},'15-2': {"tap": function proxy (index) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.handleDelete(index)
-      })();
-    
-  }},'15-3': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleAdd($event)
-      })();
-    
-  }},'15-4': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleSave($event)
-      })();
-    
-  }},'15-5': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleCancel($event)
-      })();
-    
-  }}}, models: {} }, {info: {"components":{"i-icon":{"path":"../iview/icon/index"}},"on":{"15-2":["tap"]}}, handlers: {'15-0': {"blur": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleChangeName($event)
-      })();
-    
-  }},'15-1': {"blur": function proxy (index) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleInputItem($event, index)
-      })();
-    
-  }},'15-2': {"tap": function proxy (index) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.handleDelete(index)
-      })();
-    
-  }},'15-3': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleAdd($event)
-      })();
-    
-  }},'15-4': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleSave($event)
-      })();
-    
-  }},'15-5': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleCancel($event)
-      })();
-    
-  }}}, models: {} }, {info: {"components":{"i-icon":{"path":"../iview/icon/index"}},"on":{"15-2":["tap"]}}, handlers: {'15-0': {"blur": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleChangeName($event)
-      })();
-    
-  }},'15-1': {"blur": function proxy (index) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleInputItem($event, index)
-      })();
-    
-  }},'15-2': {"tap": function proxy (index) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.handleDelete(index)
-      })();
-    
-  }},'15-3': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleAdd($event)
-      })();
-    
-  }},'15-4': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleSave($event)
-      })();
-    
-  }},'15-5': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleCancel($event)
-      })();
-    
-  }}}, models: {} }, {info: {"components":{"i-icon":{"path":"../iview/icon/index"}},"on":{"15-2":["tap"]}}, handlers: {'15-0': {"blur": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleChangeName($event)
-      })();
-    
-  }},'15-1': {"blur": function proxy (index) {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleInputItem($event, index)
-      })();
-    
-  }},'15-2': {"tap": function proxy (index) {
-    
-    var _vm=this;
-      return (function () {
-        _vm.handleDelete(index)
-      })();
-    
-  }},'15-3': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleAdd($event)
-      })();
-    
-  }},'15-4': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleSave($event)
-      })();
-    
-  }},'15-5': {"tap": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleCancel($event)
-      })();
-    
-  }}}, models: {} }, {info: {"components":{"i-icon":{"path":"../iview/icon/index"}},"on":{"15-2":["tap"]}}, handlers: {'15-0': {"blur": function proxy () {
-    var $event = arguments[arguments.length - 1];
-    var _vm=this;
-      return (function () {
-        _vm.handleChangeName($event)
-      })();
-    
-  }},'15-1': {"blur": function proxy (index) {
+  }},'15-1': {"input": function proxy (index) {
     var $event = arguments[arguments.length - 1];
     var _vm=this;
       return (function () {

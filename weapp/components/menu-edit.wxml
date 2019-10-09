@@ -7,7 +7,7 @@
     </view>
     <scroll-view scroll-y="{{ true }}" class="edit-body">
       <view wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" class="edit-body-item">
-        <input value="{{item}}" placeholder="点击输入选项名称" data-wpy-evt="15-1" bindblur="_proxy" data-wpyblur-a="{{ index }}" class="edit-body-input"></input>
+        <input value="{{item}}" placeholder="点击输入选项名称" data-wpy-evt="15-1" bindinput="_proxy" data-wpyinput-a="{{ index }}" class="edit-body-input"></input>
         <i-icon bind_init="_initComponent" type="close" data-wpy-evt="15-2" bindtap="_proxy" data-wpytap-a="{{ index }}" class="edit-body-item-close"></i-icon>
       </view>
       <view data-wpy-evt="15-3" bindtap="_proxy" class="edit-body-add">增加一项</view>

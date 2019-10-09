@@ -45,6 +45,11 @@
   text-align: center;
   font-size: 12px;
 }
+.result {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 5px;
+}
 </style>
 <wxs module="m1" lang="babel">
   const getTime = (time) => {
@@ -69,10 +74,11 @@
           :index="item.name">{{ item.name }}</view>
       </view>
       <view class="btn-box">
-        <view class="btn" @tap="handleStart">{{ interval && btnName ? btnName : '开始！' }}</view>
+        <view class="btn" @tap="handleStart">{{ interval && btnName ? '结束' : '开始！' }}</view>
         <view v-if="!interval" class="info">
           <button @tap="handleChangeList" class="login-btn">切换菜单</button>
         </view>
+        <view v-else class="result">选择为: {{ btnName }}</view>
       </view>
     </view>
     <i-modal visible="{{ modalAble }}" bind:ok="handleModalOk" :show-cancel="false">
@@ -126,8 +132,20 @@
       modalListAble: false // 展示切换菜单列表
     },
 
+    created () {
+      wx.showShareMenu({
+        withShareTicket: true
+      })
+    },
+  
     computed: {
 
+    },
+
+    onShareAppMessage: function (res) {
+      return {
+        imageUrl: 'https://6373-csy-1300171683.tcb.qcloud.la/assets/img/share.jpg'
+      }
     },
 
     methods: {
